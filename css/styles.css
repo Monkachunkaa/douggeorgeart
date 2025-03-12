@@ -177,6 +177,14 @@ section {
     text-align: center;
     color: white;
     padding: 0;
+    will-change: transform; /* Hardware acceleration hint */
+}
+
+/* Disable fixed background on mobile for better performance */
+@media (max-width: 768px) {
+    .hero {
+        background-attachment: scroll;
+    }
 }
 
 .hero-content {
@@ -269,6 +277,17 @@ section {
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    will-change: transform; /* Hardware acceleration hint */
+}
+
+/* Lazy loading placeholder style */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+}
+
+.gallery-image:not(.lazy-image) {
+    opacity: 1;
 }
 
 .gallery-item:hover .gallery-image {
@@ -527,6 +546,7 @@ section {
     user-select: none; /* Prevent text selection during drag */
     will-change: transform; /* Hint to browser to optimize transform changes */
     backface-visibility: hidden; /* Reduce flickering on some browsers */
+    -webkit-transform: translateZ(0); /* Additional hardware acceleration for iOS */
 }
 
 #modal-image.zoomed {

@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     ];
 
-    // Initialize Gallery
+    // Initialize Gallery with lazy loading
     function initGallery() {
         const galleryGrid = document.getElementById('gallery-grid');
         
@@ -111,9 +111,13 @@ document.addEventListener('DOMContentLoaded', function() {
             galleryItem.className = `gallery-item`;
             galleryItem.setAttribute('data-id', artwork.id);
             
+            // Create a thumbnail version of the image path
+            // In a real implementation, you would have actual thumbnails
+            const imagePath = artwork.image;
+            
             galleryItem.innerHTML = `
                 <div class="gallery-image-container">
-                    <img src="${artwork.image}" alt="${artwork.title}" class="gallery-image">
+                    <img data-src="${imagePath}" alt="${artwork.title}" class="gallery-image lazy-image">
                 </div>
                 <div class="gallery-caption">
                     <h3>${artwork.title}</h3>
@@ -127,6 +131,66 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add click event to open modal
             galleryItem.addEventListener('click', () => openModal(artwork));
         });
+        
+        // Initialize lazy loading
+        initLazyLoading();
+    }
+    
+    // Lazy loading implementation
+    function initLazyLoading() {
+        // Use Intersection Observer API for better performance
+        if ('IntersectionObserver' in window) {
+            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const lazyImage = entry.target;
+                        lazyImage.src = lazyImage.dataset.src;
+                        lazyImage.classList.remove('lazy-image');
+                        lazyImageObserver.unobserve(lazyImage);
+                    }
+                });
+            });
+
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            lazyImages.forEach(lazyImage => {
+                lazyImageObserver.observe(lazyImage);
+            });
+        } else {
+            // Fallback for browsers that don't support Intersection Observer
+            // Simple scroll-based lazy loading
+            let lazyLoadThrottleTimeout;
+            
+            function lazyLoad() {
+                if (lazyLoadThrottleTimeout) {
+                    clearTimeout(lazyLoadThrottleTimeout);
+                }
+
+                lazyLoadThrottleTimeout = setTimeout(() => {
+                    const scrollTop = window.pageYOffset;
+                    const lazyImages = document.querySelectorAll('.lazy-image');
+                    
+                    lazyImages.forEach(lazyImage => {
+                        if (lazyImage.offsetTop < (window.innerHeight + scrollTop)) {
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove('lazy-image');
+                        }
+                    });
+                    
+                    if (lazyImages.length === 0) { 
+                        document.removeEventListener('scroll', lazyLoad);
+                        window.removeEventListener('resize', lazyLoad);
+                        window.removeEventListener('orientationChange', lazyLoad);
+                    }
+                }, 20);
+            }
+
+            document.addEventListener('scroll', lazyLoad);
+            window.addEventListener('resize', lazyLoad);
+            window.addEventListener('orientationChange', lazyLoad);
+            
+            // Initial load
+            lazyLoad();
+        }
     }
 
     // Modal functionality
@@ -654,8 +718,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update current year in footer
     document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    // Header scroll effect
-    window.addEventListener('scroll', () => {
+    // Throttled header scroll effect for better performance
+    let lastScrollPosition = 0;
+    let ticking = false;
+    
+    function updateHeaderOnScroll() {
         const header = document.querySelector('.site-header');
         if (window.scrollY > 50) {
             header.style.background = 'rgba(255, 255, 255, 0.98)';
@@ -664,7 +731,21 @@ document.addEventListener('DOMContentLoaded', function() {
             header.style.background = 'rgba(255, 255, 255, 0.95)';
             header.style.boxShadow = 'none';
         }
-    });
+        ticking = false;
+    }
+    
+    window.addEventListener('scroll', () => {
+        lastScrollPosition = window.scrollY;
+        
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateHeaderOnScroll();
+                ticking = false;
+            });
+            
+            ticking = true;
+        }
+    }, { passive: true }); // Use passive event listener for better performance
 
     // Initialize Gallery
     initGallery();
