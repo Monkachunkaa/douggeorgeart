@@ -556,6 +556,8 @@ section {
     pointer-events: none; /* Prevent the instruction from interfering with drag */
 }
 
+/* Mobile instruction text is handled in JavaScript */
+
 .modal-image-container:hover .zoom-instruction {
     opacity: 1;
 }

@@ -135,10 +135,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalTitle = document.getElementById('modal-title');
         const modalDescription = document.getElementById('modal-description');
         const modalDetails = document.getElementById('modal-details-text');
+        const zoomInstruction = document.getElementById('zoom-instruction');
         
         // Set the title and description
         modalTitle.textContent = artwork.title;
         modalDescription.textContent = artwork.description;
+        
+        // Set zoom instruction based on device type
+        if (window.matchMedia("(max-width: 768px)").matches) {
+            zoomInstruction.textContent = 'Double tap to zoom';
+        } else {
+            zoomInstruction.textContent = 'Click to zoom';
+        }
         
         // Get the image container and reset the image element
         const modalImageContainer = document.querySelector('.modal-image-container');
@@ -159,47 +167,55 @@ document.addEventListener('DOMContentLoaded', function() {
         // Variables for drag functionality
         let isDragging = false;
         let startX, startY, translateX = 0, translateY = 0;
-        let mouseDownTime = 0;
-        let mouseDownX = 0;
-        let mouseDownY = 0;
+        let touchStartTime = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let lastTapTime = 0; // For detecting double taps
         
         // Event handlers
         function handleImageClick(e) {
             e.stopPropagation(); // Prevent modal from closing
             
-            // Only handle clicks (not drags)
-            const clickTime = new Date().getTime();
-            const mouseUpX = e.clientX;
-            const mouseUpY = e.clientY;
-            const timeDiff = clickTime - mouseDownTime;
-            const distance = Math.sqrt(
-                Math.pow(mouseUpX - mouseDownX, 2) +
-                Math.pow(mouseUpY - mouseDownY, 2)
-            );
-            
-            // If this was a quick tap without movement (< 10px movement and < 300ms)
-            if (timeDiff < 300 && distance < 10) {
-                if (!this.classList.contains('zoomed')) {
-                    // Zoom in
-                    this.classList.add('zoomed');
-                    this.style.transform = 'scale(1.5)';
-                    this.style.cursor = 'grab';
-                    translateX = 0;
-                    translateY = 0;
-                } else {
-                    // Zoom out
-                    this.classList.remove('zoomed');
-                    this.style.transform = 'scale(1)';
-                    this.style.cursor = 'zoom-in';
+            // Only handle clicks (not drags) on desktop
+            if (window.matchMedia("(min-width: 769px)").matches) {
+                const clickTime = new Date().getTime();
+                const mouseUpX = e.clientX;
+                const mouseUpY = e.clientY;
+                const timeDiff = clickTime - touchStartTime;
+                const distance = Math.sqrt(
+                    Math.pow(mouseUpX - touchStartX, 2) +
+                    Math.pow(mouseUpY - touchStartY, 2)
+                );
+                
+                // If this was a quick tap without movement (< 10px movement and < 300ms)
+                if (timeDiff < 300 && distance < 10) {
+                    toggleZoom(this);
                 }
+            }
+        }
+        
+        // Toggle zoom function
+        function toggleZoom(element) {
+            if (!element.classList.contains('zoomed')) {
+                // Zoom in
+                element.classList.add('zoomed');
+                element.style.transform = 'scale(1.5)';
+                element.style.cursor = window.matchMedia("(min-width: 769px)").matches ? 'grab' : 'default';
+                translateX = 0;
+                translateY = 0;
+            } else {
+                // Zoom out
+                element.classList.remove('zoomed');
+                element.style.transform = 'scale(1)';
+                element.style.cursor = window.matchMedia("(min-width: 769px)").matches ? 'zoom-in' : 'default';
             }
         }
         
         function handleImageMouseDown(e) {
             // Record mousedown time and position for all clicks
-            mouseDownTime = new Date().getTime();
-            mouseDownX = e.clientX;
-            mouseDownY = e.clientY;
+            touchStartTime = new Date().getTime();
+            touchStartX = e.clientX;
+            touchStartY = e.clientY;
             
             // Only start drag if image is zoomed
             if (this.classList.contains('zoomed')) {
@@ -217,11 +233,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const dx = e.clientX - startX;
             const dy = e.clientY - startY;
             
+            updateImagePosition(this, dx, dy);
+            
+            startX = e.clientX;
+            startY = e.clientY;
+        }
+        
+        function updateImagePosition(element, dx, dy) {
             translateX += dx;
             translateY += dy;
             
             // Calculate maximum drag bounds based on the image size and zoom level
-            const rect = this.getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
             const zoomLevel = 1.5;
             const maxTranslateX = (rect.width * (zoomLevel - 1)) / 2;
             const maxTranslateY = (rect.height * (zoomLevel - 1)) / 2;
@@ -230,32 +253,86 @@ document.addEventListener('DOMContentLoaded', function() {
             translateX = Math.max(-maxTranslateX, Math.min(translateX, maxTranslateX));
             translateY = Math.max(-maxTranslateY, Math.min(translateY, maxTranslateY));
             
-            this.style.transform = `scale(1.5) translate(${translateX}px, ${translateY}px)`;
-            
-            startX = e.clientX;
-            startY = e.clientY;
+            element.style.transform = `scale(1.5) translate(${translateX}px, ${translateY}px)`;
         }
         
         function handleImageMouseUp() {
             isDragging = false;
-            if (this.classList.contains('zoomed')) {
+            if (this.classList.contains('zoomed') && window.matchMedia("(min-width: 769px)").matches) {
                 this.style.cursor = 'grab';
             }
         }
         
         function handleImageMouseLeave() {
             isDragging = false;
-            if (this.classList.contains('zoomed')) {
+            if (this.classList.contains('zoomed') && window.matchMedia("(min-width: 769px)").matches) {
                 this.style.cursor = 'grab';
             }
         }
         
-        // Add event listeners to the new image
+        // Touch event handlers for mobile devices
+        function handleImageTouchStart(e) {
+            // Prevent default to avoid page scrolling when dragging a zoomed image
+            if (this.classList.contains('zoomed')) {
+                e.preventDefault();
+            }
+            
+            touchStartTime = new Date().getTime();
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            
+            // Handle double tap for zoom toggle
+            const now = new Date().getTime();
+            const timeSinceLastTap = now - lastTapTime;
+            
+            if (timeSinceLastTap < 300) {
+                // Double tap detected
+                e.preventDefault(); // Prevent zoom due to double tap
+                toggleZoom(this);
+            }
+            
+            lastTapTime = now;
+            
+            // Start drag if image is zoomed
+            if (this.classList.contains('zoomed')) {
+                isDragging = true;
+                startX = touch.clientX;
+                startY = touch.clientY;
+            }
+        }
+        
+        function handleImageTouchMove(e) {
+            if (!isDragging) return;
+            
+            // Prevent default to avoid page scrolling when dragging a zoomed image
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            const dx = touch.clientX - startX;
+            const dy = touch.clientY - startY;
+            
+            updateImagePosition(this, dx, dy);
+            
+            startX = touch.clientX;
+            startY = touch.clientY;
+        }
+        
+        function handleImageTouchEnd() {
+            isDragging = false;
+        }
+        
+        // Add mouse event listeners for desktop
         newModalImage.addEventListener('click', handleImageClick);
         newModalImage.addEventListener('mousedown', handleImageMouseDown);
         newModalImage.addEventListener('mousemove', handleImageMouseMove);
         newModalImage.addEventListener('mouseup', handleImageMouseUp);
         newModalImage.addEventListener('mouseleave', handleImageMouseLeave);
+        
+        // Add touch event listeners for mobile
+        newModalImage.addEventListener('touchstart', handleImageTouchStart, { passive: false });
+        newModalImage.addEventListener('touchmove', handleImageTouchMove, { passive: false });
+        newModalImage.addEventListener('touchend', handleImageTouchEnd);
         
         // Build details text including pricing information
         const paintingPrice = parseInt(artwork.price.replace('$',''));
