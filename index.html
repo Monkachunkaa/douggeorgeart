@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doug George Art | Fine Art Gallery</title>
+    <meta name="description" content="Explore the artistic works of Doug George, featuring original paintings and contemporary art.">
+    <link rel="icon" href="img/favicon.ico">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Doug George Art | Fine Art Gallery">
+    <meta property="og:description" content="Explore the artistic works of Doug George, featuring original paintings and contemporary art.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="img/og-image.jpg">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Doug George Art | Fine Art Gallery">
+    <meta name="twitter:description" content="Explore the artistic works of Doug George, featuring original paintings and contemporary art.">
+    <meta name="twitter:image" content="img/og-image.jpg">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav">
+                <div class="logo">
+                    <a href="index.html">Doug George</a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Doug George</h1>
+                    <p class="subtitle">Watercolor & Acrylic Nature Art</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About the Artist</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="img/doug-portrait.jpg" alt="Doug George, Artist" class="artist-portrait">
+                    </div>
+                    <div class="about-text">
+                        <p>Douglas George is a retired construction engineer whose lifelong passion for art has blossomed into a rewarding second chapter. Throughout his working years, he dedicated himself to learning the craft of drawing and painting, developing a keen eye for capturing the beauty of landscapes, wildlife, and human subjects.</p>
+                        <p>Through numerous workshops and dedicated practice, Doug has developed skill with the delicate balance of watercolor and the rich textures of acrylic paint. His work celebrates the natural world, inviting viewers to appreciate the subtle details and quiet moments often overlooked in our busy lives.</p>
+                        <p>Doug's art stems from a deep appreciation for the world around us - the way light falls on a forest path, the harmony of colors in a coastal scene, or the character in an animal's expression. As a firm believer that everyone possesses natural creative talents, he encourages others to discover the joy that artistic expression can bring to life.</p>
+                        <p>All of his paintings are created with acrylic on canvas and are available framed or unframed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery">
+            <div class="container">
+                <h2>Gallery</h2>
+                <div class="gallery-grid" id="gallery-grid">
+                    <!-- Gallery items will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contact</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Interested in a piece?</h3>
+                        <p>If you're interested in purchasing artwork or have questions about commissions, please get in touch. All inquiries are welcome.</p>
+                        <div class="contact-details">
+                            <p><strong>Email:</strong> <a href="mailto:placeholder@gmail.com">placeholder@gmail.com</a></p>
+
+                        </div>
+                    </div>
+                    <div class="contact-form-container">
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number (optional)</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn">Send Message</button>
+                            </div>
+                            <div id="form-status" class="form-status"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <a href="index.html">Doug George</a>
+                </div>
+                <div class="footer-nav">
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="copyright">
+                <p>&copy; <span id="current-year"></span> Doug George Art. All rights reserved.</p>
+                <p class="price-disclaimer">All paintings are acrylic on canvas. Prices exclude sales tax, packaging, and shipping costs.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Gallery Images -->
+    <div id="image-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-image-container">
+                <img id="modal-image" src="" alt="Artwork detail">
+                <div class="zoom-instruction">Click to zoom</div>
+            </div>
+            <div id="modal-details" class="modal-details">
+                <h3 id="modal-title"></h3>
+                <p id="modal-description"></p>
+                <div id="modal-details-text"></div>
+                <button id="inquire-button" class="btn inquire-btn">Inquire About This Piece</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
