@@ -400,11 +400,24 @@ section {
     box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
+/* Validation styles */
+.form-group input[style*="border-color: #f44336"],
+.form-group textarea[style*="border-color: #f44336"] {
+    border-color: #f44336;
+    background-color: rgba(244, 67, 54, 0.05);
+}
+
 .form-status {
     margin-top: 1rem;
     padding: 1rem;
     border-radius: 2px;
     font-weight: 600;
+    display: none;
+}
+
+.form-status ul {
+    margin: 0;
+    padding-left: 1.5rem;
 }
 
 .form-status.success {

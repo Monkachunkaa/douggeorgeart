@@ -242,43 +242,81 @@ document.addEventListener('DOMContentLoaded', function() {
       const emailField = document.getElementById('email');
       const messageField = document.getElementById('message');
       
-      // Simple validation
-      let valid = true;
+      // Reset previous validation styling
+      nameField.style.borderColor = '';
+      emailField.style.borderColor = '';
+      messageField.style.borderColor = '';
+      
+      // Track errors for each field
+      let errors = [];
+      
+      // Validate name field
       if (!nameField.value.trim()) {
-        valid = false;
+        nameField.style.borderColor = '#f44336';
+        errors.push('Please enter your name');
       }
       
-      if (!emailField.value.trim() || !emailField.value.includes('@')) {
-        valid = false;
+      // Validate email field
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailField.value.trim() || !emailPattern.test(emailField.value.trim())) {
+        emailField.style.borderColor = '#f44336';
+        errors.push('Please enter a valid email address');
       }
       
+      // Validate message field
       if (!messageField.value.trim() || messageField.value.length < 10) {
-        valid = false;
+        messageField.style.borderColor = '#f44336';
+        errors.push('Please enter a message (at least 10 characters)');
       }
       
-      if (valid) {
-        // Frontend validation passed
-        formStatus.textContent = 'Thank you! Your message has been received.';
+      // Display success or error message
+      if (errors.length === 0) {
+        // Success! Form is valid
+        formStatus.innerHTML = '<p>Thank you! Your message has been received.</p>';
+        formStatus.style.display = 'block';
         formStatus.style.color = '#4caf50';
         formStatus.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
         formStatus.style.padding = '1rem';
         formStatus.style.borderRadius = '2px';
+        formStatus.style.marginTop = '1rem';
         
         // Reset form
         contactForm.reset();
         
-        // Note: In a real implementation, you would post the data to a server here
-        // Form data could be collected with FormData API:
-        // const formData = new FormData(contactForm);
-        // Then sent with fetch() or XMLHttpRequest
+        // Hide the success message after 5 seconds
+        setTimeout(function() {
+          formStatus.style.display = 'none';
+        }, 5000);
       } else {
-        // Validation failed
-        formStatus.textContent = 'Please fill out all required fields correctly.';
+        // Error - show validation messages
+        let errorHtml = '<ul style="margin: 0; padding-left: 1.5rem;">';
+        errors.forEach(function(error) {
+          errorHtml += `<li>${error}</li>`;
+        });
+        errorHtml += '</ul>';
+        
+        formStatus.innerHTML = errorHtml;
+        formStatus.style.display = 'block';
         formStatus.style.color = '#f44336';
         formStatus.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
         formStatus.style.padding = '1rem';
         formStatus.style.borderRadius = '2px';
+        formStatus.style.marginTop = '1rem';
       }
+      
+      // Scroll to formStatus if not in view
+      if (errors.length > 0) {
+        formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+    
+    // Add focus event to reset validation styling
+    const formFields = contactForm.querySelectorAll('input, textarea');
+    formFields.forEach(function(field) {
+      field.addEventListener('focus', function() {
+        this.style.borderColor = '';
+        formStatus.style.display = 'none';
+      });
     });
   }
 
