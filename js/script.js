@@ -7,14 +7,15 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     });
 
-    // Art Gallery Data - Updated with CSV information and additional images
+    // Art Gallery Data - Updated with WebP image support
     const artworks = [
         {
             id: 1,
             title: "Fishing Boats on Beach",
             category: "landscape",
             description: "Colorful fishing boats resting on a peaceful shoreline at low tide.",
-            image: "img/fishing_boats_on_beach.jpg",
+            image: "img/fishing_boats_on_beach.webp",
+            fallbackImage: "img/fishing_boats_on_beach.jpg",
             details: "Acrylic on canvas, 12\" x 16\"",
             price: "$200",
             framePrice: "$75"
@@ -24,7 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "House With Red Field",
             category: "landscape",
             description: "A rustic farmhouse set against a striking field of vibrant red wildflowers.",
-            image: "img/house_with_red_field.jpeg",
+            image: "img/house_with_red_field.webp",
+            fallbackImage: "img/house_with_red_field.jpeg",
             details: "Acrylic on canvas, 14\" x 14\"",
             price: "$250",
             framePrice: "$75"
@@ -34,7 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Country House with Red Roof",
             category: "landscape",
             description: "A charming country house with a distinctive red roof nestled in a pastoral setting.",
-            image: "img/country_house_with_red_roof.jpg",
+            image: "img/country_house_with_red_roof.webp",
+            fallbackImage: "img/country_house_with_red_roof.jpg",
             details: "Acrylic on canvas, 12\" x 16\"",
             price: "$250",
             framePrice: "$75"
@@ -44,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Pathway to the Beach",
             category: "landscape",
             description: "A tranquil pathway leading through coastal dunes to a sun-drenched beach.",
-            image: "img/pathway_to_the_beach.jpg",
+            image: "img/pathway_to_the_beach.webp",
+            fallbackImage: "img/pathway_to_the_beach.jpg",
             details: "Acrylic on canvas, 12\" x 16\"",
             price: "$275",
             framePrice: "$75"
@@ -54,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Country Walk",
             category: "landscape",
             description: "A serene path winding through rural countryside, inviting peaceful exploration.",
-            image: "img/country_walk.jpg",
+            image: "img/country_walk.webp",
+            fallbackImage: "img/country_walk.jpg",
             details: "Acrylic on canvas, 14\" x 14\"",
             price: "$300",
             framePrice: "$75"
@@ -64,7 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Trees in Townsend Forest",
             category: "landscape",
             description: "Ancient trees standing majestically in the historic Townsend Forest.",
-            image: "img/trees_in_townsend_forest.jpg",
+            image: "img/trees_in_townsend_forest.webp",
+            fallbackImage: "img/trees_in_townsend_forest.jpg",
             details: "Acrylic on canvas, 18\" x 18\"",
             price: "$400",
             framePrice: "$90"
@@ -74,7 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Townsend Forest II",
             category: "landscape",
             description: "A different perspective of the beautiful Townsend Forest, capturing its depth and serenity.",
-            image: "img/townsend_forest_II.jpg",
+            image: "img/townsend_forest_II.webp",
+            fallbackImage: "img/townsend_forest_II.jpg",
             details: "Acrylic on canvas, 16\" x 16\"",
             price: "$350",
             framePrice: "$75"
@@ -84,7 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Country House",
             category: "landscape",
             description: "A quaint country house surrounded by natural beauty and tranquility.",
-            image: "img/country_house.jpg",
+            image: "img/country_house.webp",
+            fallbackImage: "img/country_house.jpg",
             details: "Acrylic on canvas, 12\" x 16\"",
             price: "$350",
             framePrice: "$90"
@@ -94,14 +102,15 @@ document.addEventListener('DOMContentLoaded', function() {
             title: "Townsend Forest IV",
             category: "landscape",
             description: "Another captivating view of Townsend Forest in a different season.",
-            image: "img/townsend_forest_IV.jpg",
+            image: "img/townsend_forest_IV.webp",
+            fallbackImage: "img/townsend_forest_IV.jpg",
             details: "Acrylic on canvas, 16\" x 16\"",
             price: "$350",
             framePrice: "$75"
         }
     ];
 
-    // Initialize Gallery with lazy loading
+    // Initialize Gallery
     function initGallery() {
         const galleryGrid = document.getElementById('gallery-grid');
         
@@ -111,13 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
             galleryItem.className = `gallery-item`;
             galleryItem.setAttribute('data-id', artwork.id);
             
-            // Create a thumbnail version of the image path
-            // In a real implementation, you would have actual thumbnails
-            const imagePath = artwork.image;
-            
             galleryItem.innerHTML = `
                 <div class="gallery-image-container">
-                    <img data-src="${imagePath}" alt="${artwork.title}" class="gallery-image lazy-image">
+                    <picture>
+                        <source srcset="${artwork.image}" type="image/webp">
+                        <img src="${artwork.fallbackImage}" alt="${artwork.title}" class="gallery-image">
+                    </picture>
                 </div>
                 <div class="gallery-caption">
                     <h3>${artwork.title}</h3>
@@ -131,12 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add click event to open modal
             galleryItem.addEventListener('click', () => openModal(artwork));
         });
-        
-        // Initialize lazy loading
-        initLazyLoading();
     }
     
-    // Lazy loading implementation
+    // Lazy loading implementation for <picture> elements
     function initLazyLoading() {
         // Use Intersection Observer API for better performance
         if ('IntersectionObserver' in window) {
@@ -144,16 +149,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const lazyImage = entry.target;
-                        lazyImage.src = lazyImage.dataset.src;
-                        lazyImage.classList.remove('lazy-image');
-                        lazyImageObserver.unobserve(lazyImage);
+                        
+                        // Handle both direct img elements and picture > img elements
+                        if (lazyImage.tagName === 'IMG') {
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove('lazy-image');
+                        } else if (lazyImage.tagName === 'PICTURE') {
+                            const img = lazyImage.querySelector('img');
+                            const sources = lazyImage.querySelectorAll('source');
+                            
+                            if (img) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy-image');
+                            }
+                            
+                            sources.forEach(source => {
+                                if (source.dataset.srcset) {
+                                    source.srcset = source.dataset.srcset;
+                                }
+                            });
+                        }
+                        
+                        observer.unobserve(entry.target);
                     }
                 });
+            }, {
+                rootMargin: '200px' // Start loading 200px before they appear in viewport
             });
 
+            // Observe both img elements and picture elements
             const lazyImages = document.querySelectorAll('.lazy-image');
+            const lazyPictures = document.querySelectorAll('picture');
+            
             lazyImages.forEach(lazyImage => {
                 lazyImageObserver.observe(lazyImage);
+            });
+            
+            lazyPictures.forEach(lazyPicture => {
+                lazyImageObserver.observe(lazyPicture);
             });
         } else {
             // Fallback for browsers that don't support Intersection Observer
@@ -167,16 +200,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 lazyLoadThrottleTimeout = setTimeout(() => {
                     const scrollTop = window.pageYOffset;
-                    const lazyImages = document.querySelectorAll('.lazy-image');
                     
+                    // Handle both direct lazy images and images in picture elements
+                    const lazyImages = document.querySelectorAll('.lazy-image');
+                    const lazyPictures = document.querySelectorAll('picture');
+                    let hasUnloadedItems = false;
+                    
+                    // Handle regular img elements
                     lazyImages.forEach(lazyImage => {
                         if (lazyImage.offsetTop < (window.innerHeight + scrollTop)) {
                             lazyImage.src = lazyImage.dataset.src;
                             lazyImage.classList.remove('lazy-image');
+                        } else {
+                            hasUnloadedItems = true;
                         }
                     });
                     
-                    if (lazyImages.length === 0) { 
+                    // Handle picture elements
+                    lazyPictures.forEach(lazyPicture => {
+                        if (lazyPicture.offsetTop < (window.innerHeight + scrollTop)) {
+                            const img = lazyPicture.querySelector('img.lazy-image');
+                            const sources = lazyPicture.querySelectorAll('source[data-srcset]');
+                            
+                            if (img) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('lazy-image');
+                            }
+                            
+                            sources.forEach(source => {
+                                source.srcset = source.dataset.srcset;
+                            });
+                        } else {
+                            hasUnloadedItems = true;
+                        }
+                    });
+                    
+                    if (!hasUnloadedItems) { 
                         document.removeEventListener('scroll', lazyLoad);
                         window.removeEventListener('resize', lazyLoad);
                         window.removeEventListener('orientationChange', lazyLoad);
@@ -199,34 +258,72 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalTitle = document.getElementById('modal-title');
         const modalDescription = document.getElementById('modal-description');
         const modalDetails = document.getElementById('modal-details-text');
-        const zoomInstruction = document.getElementById('zoom-instruction');
         
         // Set the title and description
         modalTitle.textContent = artwork.title;
         modalDescription.textContent = artwork.description;
         
-        // Set zoom instruction based on device type
-        if (window.matchMedia("(max-width: 768px)").matches) {
-            zoomInstruction.textContent = 'Double tap to zoom';
-        } else {
-            zoomInstruction.textContent = 'Click to zoom';
-        }
-        
         // Get the image container and reset the image element
         const modalImageContainer = document.querySelector('.modal-image-container');
-        const oldModalImage = document.getElementById('modal-image');
         
-        // Create a fresh image element with no event listeners attached
-        const newModalImage = document.createElement('img');
-        newModalImage.id = 'modal-image'; // Keep the same ID
-        newModalImage.src = artwork.image;
-        newModalImage.alt = artwork.title;
-        newModalImage.style.cursor = 'zoom-in';
+        // Clear previous content
+        modalImageContainer.innerHTML = '';
         
-        // Replace the old image with the new one
-        if (oldModalImage) {
-            modalImageContainer.replaceChild(newModalImage, oldModalImage);
-        }
+        // Create picture element with WebP and fallback
+        const pictureElement = document.createElement('picture');
+        
+        // Add WebP source
+        const webpSource = document.createElement('source');
+        webpSource.srcset = artwork.image;
+        webpSource.type = 'image/webp';
+        pictureElement.appendChild(webpSource);
+        
+        // Create the image element
+        const imgElement = document.createElement('img');
+        imgElement.id = 'modal-image';
+        imgElement.src = artwork.fallbackImage; // Set initial fallback
+        imgElement.alt = artwork.title;
+        imgElement.style.cursor = window.matchMedia("(max-width: 768px)").matches ? 'default' : 'zoom-in';
+        pictureElement.appendChild(imgElement);
+        
+        // Add picture element to container
+        modalImageContainer.appendChild(pictureElement);
+        
+        // Add zoom instruction
+        const zoomInstruction = document.createElement('div');
+        zoomInstruction.id = 'zoom-instruction';
+        zoomInstruction.className = 'zoom-instruction';
+        zoomInstruction.textContent = window.matchMedia("(max-width: 768px)").matches ? 
+            'Double tap to zoom' : 'Click to zoom';
+        modalImageContainer.appendChild(zoomInstruction);
+        
+        // Create picture element with WebP and fallback
+        const pictureElement = document.createElement('picture');
+        
+        // Add WebP source
+        const webpSource = document.createElement('source');
+        webpSource.srcset = artwork.image;
+        webpSource.type = 'image/webp';
+        pictureElement.appendChild(webpSource);
+        
+        // Create the image element
+        const imgElement = document.createElement('img');
+        imgElement.id = 'modal-image';
+        imgElement.src = artwork.fallbackImage;
+        imgElement.alt = artwork.title;
+        imgElement.style.cursor = 'zoom-in';
+        pictureElement.appendChild(imgElement);
+        
+        // Add picture element to container
+        modalImageContainer.appendChild(pictureElement);
+        
+        // Add zoom instruction
+        const zoomInstruction = document.createElement('div');
+        zoomInstruction.id = 'zoom-instruction';
+        zoomInstruction.className = 'zoom-instruction';
+        zoomInstruction.textContent = window.matchMedia("(max-width: 768px)").matches ? 
+            'Double tap to zoom' : 'Click to zoom';
+        modalImageContainer.appendChild(zoomInstruction);
         
         // Variables for drag functionality
         let isDragging = false;
@@ -386,17 +483,20 @@ document.addEventListener('DOMContentLoaded', function() {
             isDragging = false;
         }
         
+        // Get modal image element for event handling
+        const modalImage = document.getElementById('modal-image');
+        
         // Add mouse event listeners for desktop
-        newModalImage.addEventListener('click', handleImageClick);
-        newModalImage.addEventListener('mousedown', handleImageMouseDown);
-        newModalImage.addEventListener('mousemove', handleImageMouseMove);
-        newModalImage.addEventListener('mouseup', handleImageMouseUp);
-        newModalImage.addEventListener('mouseleave', handleImageMouseLeave);
+        modalImage.addEventListener('click', handleImageClick);
+        modalImage.addEventListener('mousedown', handleImageMouseDown);
+        modalImage.addEventListener('mousemove', handleImageMouseMove);
+        modalImage.addEventListener('mouseup', handleImageMouseUp);
+        modalImage.addEventListener('mouseleave', handleImageMouseLeave);
         
         // Add touch event listeners for mobile
-        newModalImage.addEventListener('touchstart', handleImageTouchStart, { passive: false });
-        newModalImage.addEventListener('touchmove', handleImageTouchMove, { passive: false });
-        newModalImage.addEventListener('touchend', handleImageTouchEnd);
+        modalImage.addEventListener('touchstart', handleImageTouchStart, { passive: false });
+        modalImage.addEventListener('touchmove', handleImageTouchMove, { passive: false });
+        modalImage.addEventListener('touchend', handleImageTouchEnd);
         
         // Build details text including pricing information
         const paintingPrice = parseInt(artwork.price.replace('$',''));

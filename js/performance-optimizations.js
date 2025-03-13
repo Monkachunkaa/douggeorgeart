@@ -5,16 +5,25 @@
 
 // Preload critical images on page load
 window.addEventListener('load', function() {
-    // Preload the hero image
+    // Check for WebP support for optimal preloading
+    const supportsWebP = document.documentElement.classList.contains('webp');
+    
+    // Preload the hero image in appropriate format
     const heroImage = new Image();
-    heroImage.src = 'img/bg-hero-img.jpg';
+    heroImage.src = supportsWebP ? 'img/bg-hero-img.webp' : 'img/bg-hero-img.jpg';
     
     // Preload first few gallery images
-    const preloadImages = [
-        'img/fishing_boats_on_beach.jpg',
-        'img/house_with_red_field.jpeg',
-        'img/country_house_with_red_roof.jpg'
-    ];
+    const preloadImages = supportsWebP 
+        ? [
+            'img/fishing_boats_on_beach.webp',
+            'img/house_with_red_field.webp',
+            'img/country_house_with_red_roof.webp'
+        ]
+        : [
+            'img/fishing_boats_on_beach.jpg',
+            'img/house_with_red_field.jpeg',
+            'img/country_house_with_red_roof.jpg'
+        ];
     
     preloadImages.forEach(src => {
         const img = new Image();

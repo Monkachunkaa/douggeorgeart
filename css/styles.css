@@ -165,6 +165,7 @@ section {
 }
 
 /* Hero Section */
+/* Hero Section - Using WebP background with fallback */
 .hero {
     height: 100vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/bg-hero-img.jpg');
@@ -178,6 +179,11 @@ section {
     color: white;
     padding: 0;
     will-change: transform; /* Hardware acceleration hint */
+}
+
+/* WebP-enabled browsers get the WebP background */
+.webp .hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/bg-hero-img.webp');
 }
 
 /* Disable fixed background on mobile for better performance */
@@ -576,7 +582,22 @@ section {
     pointer-events: none; /* Prevent the instruction from interfering with drag */
 }
 
-/* Mobile instruction text is handled in JavaScript */
+/* Make sure zoom instruction is visible */
+.zoom-instruction {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 5px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* Prevent the instruction from interfering with drag */
+    z-index: 10; /* Ensure it appears above the image */
+}
 
 .modal-image-container:hover .zoom-instruction {
     opacity: 1;
