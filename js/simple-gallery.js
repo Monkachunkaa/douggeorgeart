@@ -31,33 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Define all our gallery items
   const artworks = [
     {
-      id: 1,
-      title: "Fishing Boats on Beach",
-      description: "Colorful fishing boats resting on a peaceful shoreline at low tide.",
-      webpImage: "img/fishing_boats_on_beach.webp",
-      image: "img/fishing_boats_on_beach.jpg",
-      paintingPrice: "$200",
-      framePrice: "$75"
-    },
-    {
-      id: 2,
-      title: "House With Red Field",
-      description: "A rustic farmhouse set against a vibrant red field.",
-      webpImage: "img/house_with_red_field.webp",
-      image: "img/house_with_red_field.jpeg",
-      paintingPrice: "$250",
-      framePrice: "$75"
-    },
-    {
-      id: 3,
-      title: "Country House with Red Roof",
-      description: "A charming country house with a distinctive red roof nestled in a rural setting.",
-      webpImage: "img/country_house_with_red_roof.webp",
-      image: "img/country_house_with_red_roof.jpg",
-      paintingPrice: "$250",
-      framePrice: "$75"
-    },
-    {
       id: 4,
       title: "Pathway to the Beach",
       description: "A tranquil pathway leading through coastal dunes to a sun-drenched beach.",
@@ -109,6 +82,33 @@ document.addEventListener('DOMContentLoaded', function() {
       webpImage: "img/townsend_forest_IV.webp",
       image: "img/townsend_forest_IV.jpg",
       paintingPrice: "$350",
+      framePrice: "$75"
+    },
+    {
+      id: 1,
+      title: "Fishing Boats on Beach",
+      description: "Colorful fishing boats resting on a peaceful shoreline at low tide.",
+      webpImage: "img/fishing_boats_on_beach.webp",
+      image: "img/fishing_boats_on_beach.jpg",
+      paintingPrice: "$200",
+      framePrice: "$75"
+    },
+    {
+      id: 2,
+      title: "House With Red Field",
+      description: "A rustic farmhouse set against a vibrant red field.",
+      webpImage: "img/house_with_red_field.webp",
+      image: "img/house_with_red_field.jpeg",
+      paintingPrice: "$250",
+      framePrice: "$75"
+    },
+    {
+      id: 3,
+      title: "Country House with Red Roof",
+      description: "A charming country house with a distinctive red roof nestled in a rural setting.",
+      webpImage: "img/country_house_with_red_roof.webp",
+      image: "img/country_house_with_red_roof.jpg",
+      paintingPrice: "$250",
       framePrice: "$75"
     }
   ];
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
           zoomInstruction.id = 'zoom-instruction';
           zoomInstruction.className = 'zoom-instruction';
           zoomInstruction.textContent = window.matchMedia("(max-width: 768px)").matches ? 
-            'Double tap to zoom' : 'Click to zoom';
+            'Tap to zoom' : 'Click to zoom';
           modalImageContainer.appendChild(zoomInstruction);
         }
       }
