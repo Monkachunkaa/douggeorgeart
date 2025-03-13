@@ -12,12 +12,17 @@
     <meta property="og:title" content="Doug George Art | Fine Art Gallery">
     <meta property="og:description" content="Explore the artistic works of Doug George, featuring original paintings and contemporary art.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="img/og-image.jpg">
+    <meta property="og:image" content="https://douggeorgeart.com/img/share_image.jpg">
+    <meta property="og:image:width" content="1200"> <!-- Recommended: 1200px min width -->
+    <meta property="og:image:height" content="630"> <!-- Recommended: 630px min height -->
+    <meta property="og:url" content="https://douggeorgeart.com"> <!-- Replace with actual website URL -->
+    <meta property="og:site_name" content="Doug George Art">
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Doug George Art | Fine Art Gallery">
     <meta name="twitter:description" content="Explore the artistic works of Doug George, featuring original paintings and contemporary art.">
-    <meta name="twitter:image" content="img/og-image.jpg">
+    <meta name="twitter:image" content="https://douggeorgeart.com/img/share_image.jpg">
+    <meta name="twitter:image:alt" content="Doug George Art Gallery featuring landscape paintings">
     <!-- CSS and fonts -->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
@@ -39,7 +44,7 @@
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <div class="hamburger">
+                <div class="hamburger" aria-label="Toggle navigation menu" role="button" tabindex="0">
                     <div class="line"></div>
                     <div class="line"></div>
                     <div class="line"></div>
@@ -96,7 +101,7 @@
                         <h3>Interested in a piece?</h3>
                         <p>If you're interested in purchasing artwork or have questions about commissions, please get in touch. All inquiries are welcome.</p>
                         <div class="contact-details">
-                            <p><strong>Email:</strong> <a href="mailto:placeholder@gmail.com">placeholder@gmail.com</a></p>
+                            <p><strong>Email:</strong> <a href="mailto:doug@douggeorgeart.com">dougplaceholder@placeholder.com</a></p>
 
                         </div>
                     </div>
@@ -154,9 +159,9 @@
     <!-- Modal for Gallery Images -->
     <div id="image-modal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal" aria-label="Close modal" role="button" tabindex="0">&times;</span>
             <div class="modal-image-container">
-                <img id="modal-image" src="" alt="Artwork detail">
+                <img id="modal-image" src="" alt="Gallery artwork in detail view" class="gallery-image">
                 <div class="zoom-instruction" id="zoom-instruction">Click to zoom</div>
             </div>
             <div id="modal-details" class="modal-details">

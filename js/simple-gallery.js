@@ -28,8 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.documentElement.classList.add('no-webp');
   }
   
-  console.log("Simple gallery initializing...");
-  
   // Define all our gallery items
   const artworks = [
     {
@@ -44,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 2,
       title: "House With Red Field",
-      description: "A rustic farmhouse set against a striking field of vibrant red wildflowers.",
+      description: "A rustic farmhouse set against a vibrant red field.",
       webpImage: "img/house_with_red_field.webp",
       image: "img/house_with_red_field.jpeg",
       paintingPrice: "$250",
@@ -53,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 3,
       title: "Country House with Red Roof",
-      description: "A charming country house with a distinctive red roof nestled in a pastoral setting.",
+      description: "A charming country house with a distinctive red roof nestled in a rural setting.",
       webpImage: "img/country_house_with_red_roof.webp",
       image: "img/country_house_with_red_roof.jpg",
       paintingPrice: "$250",
@@ -80,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 6,
       title: "Trees in Townsend Forest",
-      description: "Ancient trees standing majestically in the historic Townsend Forest.",
+      description: "Ancient trees standing majestically in the Townsend Forest.",
       webpImage: "img/trees_in_townsend_forest.webp",
       image: "img/trees_in_townsend_forest.jpg",
       paintingPrice: "$400",
@@ -107,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 9,
       title: "Townsend Forest IV",
-      description: "Another captivating view of Townsend Forest in a different season.",
+      description: "Another captivating view of Townsend Forest.",
       webpImage: "img/townsend_forest_IV.webp",
       image: "img/townsend_forest_IV.jpg",
       paintingPrice: "$350",
@@ -144,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="gallery-image-container">
         <picture>
           <source srcset="${artwork.webpImage}" type="image/webp">
-          <img src="${artwork.image}" alt="${artwork.title}" class="gallery-image">
+          <img src="${artwork.image}" alt="Painting: ${artwork.title} - ${artwork.description}" class="gallery-image">
         </picture>
       </div>
       <div class="gallery-caption">
@@ -156,8 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add click handler directly to this element
     item.onclick = function() {
-      console.log("Gallery item clicked:", artwork.id);
-      
       // Get the modal elements
       const modal = document.getElementById('image-modal');
       const modalTitle = document.getElementById('modal-title');
@@ -187,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const img = document.createElement('img');
         img.id = 'modal-image';
         img.src = artwork.image;
-        img.alt = artwork.title;
+        img.alt = `Enlarged view of painting: ${artwork.title} - ${artwork.description}`;
         img.className = 'gallery-image';
         picture.appendChild(img);
         
@@ -233,19 +229,114 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryGrid.appendChild(item);
   });
   
-  console.log("Gallery initialization complete. Added", artworks.length, "items.");
+  // Setup contact form validation
+  const contactForm = document.getElementById('contact-form');
+  const formStatus = document.getElementById('form-status');
+  
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form fields
+      const nameField = document.getElementById('name');
+      const emailField = document.getElementById('email');
+      const messageField = document.getElementById('message');
+      
+      // Simple validation
+      let valid = true;
+      if (!nameField.value.trim()) {
+        valid = false;
+      }
+      
+      if (!emailField.value.trim() || !emailField.value.includes('@')) {
+        valid = false;
+      }
+      
+      if (!messageField.value.trim() || messageField.value.length < 10) {
+        valid = false;
+      }
+      
+      if (valid) {
+        // Frontend validation passed
+        formStatus.textContent = 'Thank you! Your message has been received.';
+        formStatus.style.color = '#4caf50';
+        formStatus.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+        formStatus.style.padding = '1rem';
+        formStatus.style.borderRadius = '2px';
+        
+        // Reset form
+        contactForm.reset();
+        
+        // Note: In a real implementation, you would post the data to a server here
+        // Form data could be collected with FormData API:
+        // const formData = new FormData(contactForm);
+        // Then sent with fetch() or XMLHttpRequest
+      } else {
+        // Validation failed
+        formStatus.textContent = 'Please fill out all required fields correctly.';
+        formStatus.style.color = '#f44336';
+        formStatus.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
+        formStatus.style.padding = '1rem';
+        formStatus.style.borderRadius = '2px';
+      }
+    });
+  }
+
+  // Handle mobile navigation
+  const hamburger = document.querySelector('.hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function() {
+      navLinks.classList.toggle('active');
+    });
+    
+    // Also toggle with keyboard for accessibility
+    hamburger.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        navLinks.classList.toggle('active');
+      }
+    });
+    
+    // Close mobile menu when clicking on links
+    const navItems = navLinks.querySelectorAll('a');
+    navItems.forEach(item => {
+      item.addEventListener('click', function() {
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+  
+  // Update current year in footer
+  const yearElement = document.getElementById('current-year');
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
+  }
   
   // Handle modal closing
   const closeButton = document.querySelector('.close-modal');
   const modal = document.getElementById('image-modal');
   
   if (closeButton && modal) {
+    // Close on click
     closeButton.onclick = function() {
       modal.classList.remove('show');
       setTimeout(() => {
         modal.style.display = 'none';
       }, 300);
     };
+    
+    // Close on Enter or Space key (for accessibility)
+    closeButton.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
+    });
     
     // Close when clicking outside the content
     modal.onclick = function(event) {
@@ -255,6 +346,39 @@ document.addEventListener('DOMContentLoaded', function() {
           modal.style.display = 'none';
         }, 300);
       }
+    };
+  }
+  
+  // Handle "Inquire About This Piece" button
+  const inquireButton = document.getElementById('inquire-button');
+  if (inquireButton) {
+    inquireButton.onclick = function() {
+      // Close the modal
+      modal.classList.remove('show');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        
+        // Scroll to the contact section
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          const headerHeight = document.querySelector('.site-header').offsetHeight || 0;
+          const contactPosition = contactSection.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+          
+          window.scrollTo({
+            top: contactPosition,
+            behavior: 'smooth'
+          });
+          
+          // Pre-fill the message field with information about the artwork
+          const messageField = document.getElementById('message');
+          const titleElement = document.getElementById('modal-title');
+          
+          if (messageField && titleElement) {
+            messageField.value = `Hello, I'm interested in your artwork "${titleElement.textContent}". Please provide more information about availability and pricing.`;
+            messageField.focus();
+          }
+        }
+      }, 300);
     };
   }
   
