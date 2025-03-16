@@ -31,85 +31,100 @@ document.addEventListener('DOMContentLoaded', function() {
   // Define all our gallery items
   const artworks = [
     {
+      id: 10,
+      title: "Hibiscus 1",
+      webpImage: "img/hibiscus_1.webp",
+      image: "img/hibiscus_1.webp",
+      paintingPrice: "$250",
+      size: "12\"x16\""
+    },
+    {
+      id: 11,
+      title: "Lillies",
+      webpImage: "img/lillies.webp",
+      image: "img/lillies.webp",
+      paintingPrice: "$225",
+      size: "16\"x12\""
+    },
+    {
+      id: 12,
+      title: "House at Brown Summit",
+      webpImage: "img/house-at-brown-summit.webp",
+      image: "img/house-at-brown-summit.webp",
+      paintingPrice: "$350",
+      size: "12\"x16\""
+    },
+    {
       id: 4,
       title: "Pathway to the Beach",
-      description: "A tranquil pathway leading through coastal dunes to a sun-drenched beach.",
       webpImage: "img/pathway_to_the_beach.webp",
       image: "img/pathway_to_the_beach.jpg",
       paintingPrice: "$275",
-      framePrice: "$75"
+      size: "12\"x16\""
     },
     {
       id: 5,
       title: "Country Walk",
-      description: "A serene path winding through rural countryside, inviting peaceful exploration.",
       webpImage: "img/country_walk.webp",
       image: "img/country_walk.jpg",
       paintingPrice: "$300",
-      framePrice: "$75"
+      size: "14\"x14\""
     },
     {
       id: 6,
       title: "Trees in Townsend Forest",
-      description: "Ancient trees standing majestically in the Townsend Forest.",
       webpImage: "img/trees_in_townsend_forest.webp",
       image: "img/trees_in_townsend_forest.jpg",
       paintingPrice: "$400",
-      framePrice: "$90"
+      size: "18\"x18\""
     },
     {
       id: 7,
-      title: "Townsend Forest II",
-      description: "A different perspective of the beautiful Townsend Forest, capturing its depth and serenity.",
-      webpImage: "img/townsend_forest_II.webp",
-      image: "img/townsend_forest_II.jpg",
+      title: "Townsend Forest Trees II",
+      webpImage: "img/townsend_forest_trees_II.webp",
+      image: "img/townsend_forest_trees_II.webp",
       paintingPrice: "$350",
-      framePrice: "$75"
+      size: "16\"x16\""
     },
     {
       id: 8,
-      title: "Country House",
-      description: "A quaint country house surrounded by natural beauty and tranquility.",
-      webpImage: "img/country_house.webp",
-      image: "img/country_house.jpg",
+      title: "The Orange Barn",
+      webpImage: "img/the_orange_barn.webp",
+      image: "img/the_orange_barn.jpg",
       paintingPrice: "$350",
-      framePrice: "$90"
+      size: "ask Doug"
     },
     {
       id: 9,
-      title: "Townsend Forest IV",
-      description: "Another captivating view of Townsend Forest.",
-      webpImage: "img/townsend_forest_IV.webp",
-      image: "img/townsend_forest_IV.jpg",
+      title: "Field of Sunlight",
+      webpImage: "img/field_of_sunlight.webp",
+      image: "img/field_of_sunlight.jpg",
       paintingPrice: "$350",
-      framePrice: "$75"
+      size: "ask Doug"
     },
     {
       id: 1,
       title: "Fishing Boats on Beach",
-      description: "Colorful fishing boats resting on a peaceful shoreline at low tide.",
       webpImage: "img/fishing_boats_on_beach.webp",
-      image: "img/fishing_boats_on_beach.jpg",
+      image: "img/fishing_boats_on_beach.webp",
       paintingPrice: "$200",
-      framePrice: "$75"
+      size: "12\"x16\""
     },
     {
       id: 2,
       title: "House With Red Field",
-      description: "A rustic farmhouse set against a vibrant red field.",
       webpImage: "img/house_with_red_field.webp",
-      image: "img/house_with_red_field.jpeg",
+      image: "img/house_with_red_field.webp",
       paintingPrice: "$250",
-      framePrice: "$75"
+      size: "14\"x14\""
     },
     {
       id: 3,
       title: "Country House with Red Roof",
-      description: "A charming country house with a distinctive red roof nestled in a rural setting.",
       webpImage: "img/country_house_with_red_roof.webp",
-      image: "img/country_house_with_red_roof.jpg",
+      image: "img/country_house_with_red_roof.webp",
       paintingPrice: "$250",
-      framePrice: "$75"
+      size: "12\"x16\""
     }
   ];
   
@@ -125,10 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Clear any existing content
   galleryGrid.innerHTML = '';
   
-  // Function to convert price string to number
-  function priceToNumber(priceStr) {
-    return parseInt(priceStr.replace('$', ''));
-  }
+  // Gallery item creation section
   
   // Create each gallery item
   artworks.forEach(artwork => {
@@ -142,13 +154,14 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="gallery-image-container">
         <picture>
           <source srcset="${artwork.webpImage}" type="image/webp">
-          <img src="${artwork.image}" alt="Painting: ${artwork.title} - ${artwork.description}" class="gallery-image">
+          <img src="${artwork.image}" alt="Painting: ${artwork.title}" class="gallery-image">
         </picture>
       </div>
       <div class="gallery-caption">
         <h3>${artwork.title}</h3>
-        <p>${artwork.description}</p>
-        <p class="artwork-price">Painting: ${artwork.paintingPrice} | Frame: ${artwork.framePrice}</p>
+        <p class="artwork-medium">Medium: Acrylic</p>
+        <p class="artwork-size">Size: ${artwork.size}</p>
+        <p class="artwork-price">Price: ${artwork.paintingPrice}</p>
       </div>
     `;
     
@@ -162,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Update the modal content - use picture element for WebP support
       if (modalTitle) modalTitle.innerText = artwork.title;
-      if (modalDescription) modalDescription.innerText = artwork.description;
+      if (modalDescription) modalDescription.innerText = ""; // Clear description
       
       // Replace image with picture element for WebP support
       const modalImageContainer = document.querySelector('.modal-image-container');
@@ -183,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const img = document.createElement('img');
         img.id = 'modal-image';
         img.src = artwork.image;
-        img.alt = `Enlarged view of painting: ${artwork.title} - ${artwork.description}`;
+        img.alt = `Enlarged view of painting: ${artwork.title}`;
         img.className = 'gallery-image';
         picture.appendChild(img);
         
@@ -203,14 +216,10 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Update pricing details
       if (modalDetails) {
-        const paintingPrice = priceToNumber(artwork.paintingPrice);
-        const framePrice = priceToNumber(artwork.framePrice);
-        
         modalDetails.innerHTML = `
-          <p><strong>Medium:</strong> Acrylic on canvas</p>
-          <p><strong>Painting: ${artwork.paintingPrice}</strong></p>
-          <p><strong>Frame: ${artwork.framePrice}</strong></p>
-          <p><strong>Total with frame: $${paintingPrice + framePrice}</strong></p>
+          <p><strong>Medium:</strong> Acrylic</p>
+          <p><strong>Size:</strong> ${artwork.size}</p>
+          <p><strong>Price:</strong> ${artwork.paintingPrice}</p>
           <p class="note"><em>All prices exclude sales tax, packaging, and shipping.</em></p>
         `;
       }

@@ -246,24 +246,13 @@ section {
 
 .about-content {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 3rem;
-}
-
-.about-image {
-    flex: 1;
-    min-width: 300px;
-}
-
-.artist-portrait {
-    border-radius: 2px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .about-text {
-    flex: 2;
-    min-width: 300px;
+    max-width: 800px;
+    width: 100%;
 }
 
 /* Gallery Section */
@@ -710,12 +699,8 @@ section {
         font-size: 1.2rem;
     }
 
-    .about-content, .contact-content {
+    .contact-content {
         flex-direction: column;
-    }
-
-    .about-image {
-        order: -1;
     }
 
     .gallery-grid {
