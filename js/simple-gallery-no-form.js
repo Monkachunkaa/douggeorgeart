@@ -1,5 +1,6 @@
 /**
  * Ultra Simple Gallery Implementation - No frills, just works
+ * Modified version without form handling
  */
 
 // Wait for document to be fully loaded
@@ -238,96 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryGrid.appendChild(item);
   });
   
-  // Setup contact form validation
-  const contactForm = document.getElementById('contact-form');
-  const formStatus = document.getElementById('form-status');
-  
-  if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form fields
-      const nameField = document.getElementById('name');
-      const emailField = document.getElementById('email');
-      const messageField = document.getElementById('message');
-      
-      // Reset previous validation styling
-      nameField.style.borderColor = '';
-      emailField.style.borderColor = '';
-      messageField.style.borderColor = '';
-      
-      // Track errors for each field
-      let errors = [];
-      
-      // Validate name field
-      if (!nameField.value.trim()) {
-        nameField.style.borderColor = '#f44336';
-        errors.push('Please enter your name');
-      }
-      
-      // Validate email field
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailField.value.trim() || !emailPattern.test(emailField.value.trim())) {
-        emailField.style.borderColor = '#f44336';
-        errors.push('Please enter a valid email address');
-      }
-      
-      // Validate message field
-      if (!messageField.value.trim() || messageField.value.length < 10) {
-        messageField.style.borderColor = '#f44336';
-        errors.push('Please enter a message (at least 10 characters)');
-      }
-      
-      // Display success or error message
-      if (errors.length === 0) {
-        // Success! Form is valid
-        formStatus.innerHTML = '<p>Thank you! Your message has been received.</p>';
-        formStatus.style.display = 'block';
-        formStatus.style.color = '#4caf50';
-        formStatus.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
-        formStatus.style.padding = '1rem';
-        formStatus.style.borderRadius = '2px';
-        formStatus.style.marginTop = '1rem';
-        
-        // Reset form
-        contactForm.reset();
-        
-        // Hide the success message after 5 seconds
-        setTimeout(function() {
-          formStatus.style.display = 'none';
-        }, 5000);
-      } else {
-        // Error - show validation messages
-        let errorHtml = '<ul style="margin: 0; padding-left: 1.5rem;">';
-        errors.forEach(function(error) {
-          errorHtml += `<li>${error}</li>`;
-        });
-        errorHtml += '</ul>';
-        
-        formStatus.innerHTML = errorHtml;
-        formStatus.style.display = 'block';
-        formStatus.style.color = '#f44336';
-        formStatus.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
-        formStatus.style.padding = '1rem';
-        formStatus.style.borderRadius = '2px';
-        formStatus.style.marginTop = '1rem';
-      }
-      
-      // Scroll to formStatus if not in view
-      if (errors.length > 0) {
-        formStatus.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    });
-    
-    // Add focus event to reset validation styling
-    const formFields = contactForm.querySelectorAll('input, textarea');
-    formFields.forEach(function(field) {
-      field.addEventListener('focus', function() {
-        this.style.borderColor = '';
-        formStatus.style.display = 'none';
-      });
-    });
-  }
+  // *** REMOVED CONTACT FORM VALIDATION CODE ***
 
   // Handle mobile navigation
   const hamburger = document.querySelector('.hamburger');
@@ -396,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   }
   
-  // Handle "Inquire About This Piece" button
+  // Handle "Inquire About This Piece" button - modified to not alter form
   const inquireButton = document.getElementById('inquire-button');
   if (inquireButton) {
     inquireButton.onclick = function() {
@@ -416,13 +328,20 @@ document.addEventListener('DOMContentLoaded', function() {
             behavior: 'smooth'
           });
           
-          // Pre-fill the message field with information about the artwork
-          const messageField = document.getElementById('message');
+          // Store the message in sessionStorage instead of directly setting the field
+          // This allows Basin to handle the form properly
           const titleElement = document.getElementById('modal-title');
-          
-          if (messageField && titleElement) {
-            messageField.value = `Hello, I'm interested in your artwork "${titleElement.textContent}". Please provide more information about availability and pricing.`;
-            messageField.focus();
+          if (titleElement) {
+            sessionStorage.setItem('artworkInquiry', 
+              `Hello, I'm interested in your artwork "${titleElement.textContent}". Please provide more information about availability and pricing.`);
+            
+            // Check if there's contact-form.js to handle this
+            // If not, try to set the field directly but don't interfere with submission
+            const messageField = document.getElementById('message');
+            if (messageField) {
+              messageField.value = sessionStorage.getItem('artworkInquiry');
+              messageField.focus();
+            }
           }
         }
       }, 300);

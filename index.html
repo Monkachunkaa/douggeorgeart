@@ -15,7 +15,7 @@
     <meta property="og:image" content="https://douggeorgeart.com/img/share_image.jpg">
     <meta property="og:image:width" content="1200"> <!-- Recommended: 1200px min width -->
     <meta property="og:image:height" content="630"> <!-- Recommended: 630px min height -->
-    <meta property="og:url" content="https://douggeorgeart.com"> <!-- Replace with actual website URL -->
+    <meta property="og:url" content="https://douggeorgeart.com">
     <meta property="og:site_name" content="Doug George Art">
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
@@ -23,14 +23,24 @@
     <meta name="twitter:description" content="Discover Doug George's tranquil landscape paintings featuring serene rural scenes, coastal views, and forest paths rendered in acrylic on canvas.">
     <meta name="twitter:image" content="https://douggeorgeart.com/img/share_image.jpg">
     <meta name="twitter:image:alt" content="Doug George Art Gallery featuring landscape paintings">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XEQNLC2MT9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XEQNLC2MT9');
+    </script>
     <!-- CSS and fonts -->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- ONLY use the simple gallery script -->
-    <script src="js/simple-gallery.js"></script>
+    <!-- Scripts -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="js/simple-gallery-no-form.js"></script>
+    <script src="js/form/contact-form-emailjs.js"></script>
 </head>
 <body>
     <header class="site-header">
@@ -101,7 +111,12 @@
                         </div>
                     </div>
                     <div class="contact-form-container">
-                        <form id="contact-form" class="contact-form">
+                        <form id="contact-form" class="contact-form" method="post">
+                            <!-- Honeypot field to prevent spam -->
+                            <div class="form-group" style="display:none;">
+                                <label for="_honey">Leave this field blank</label>
+                                <input type="text" name="_honey" id="_honey" tabindex="-1" autocomplete="off">
+                            </div>
                             <div class="form-group">
                                 <label for="name">Name</label>
                                 <input type="text" id="name" name="name" required>
