@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
       webpImage: "img/the_orange_barn.webp",
       image: "img/the_orange_barn.jpg",
       paintingPrice: "$350",
-      size: "ask Doug"
+      size: "12\"x16\""
     },
     {
       id: 9,
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
       webpImage: "img/field_of_sunlight.webp",
       image: "img/field_of_sunlight.jpg",
       paintingPrice: "$350",
-      size: "ask Doug"
+      size: "12\"x16\""
     },
     {
       id: 1,

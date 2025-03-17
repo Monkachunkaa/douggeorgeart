@@ -18,12 +18,12 @@
 
 html {
     scroll-behavior: smooth;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 body {
     font-family: 'Raleway', sans-serif;
-    line-height: 1.6;
+    line-height: 1.7;
     color: var(--text-color);
     background-color: #fff;
 }
@@ -90,7 +90,7 @@ section {
     display: inline-block;
     background-color: var(--primary-color);
     color: white;
-    padding: 0.8rem 1.5rem;
+    padding: 0.9rem 1.6rem;
     border: none;
     border-radius: 2px;
     cursor: pointer;
@@ -98,7 +98,7 @@ section {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .btn:hover {
@@ -145,7 +145,7 @@ section {
 }
 
 .nav-links a {
-    font-size: 1rem;
+    font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
@@ -316,12 +316,12 @@ section {
 
 .gallery-caption h3 {
     margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 .gallery-caption p {
-    color: var(--medium-gray);
-    font-size: 0.9rem;
+    color: var(--dark-gray);
+    font-size: 1rem;
 }
 
 /* Pricing styles */
@@ -329,7 +329,7 @@ section {
     color: var(--primary-color);
     font-weight: 600;
     margin-top: 0.5rem;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
 }
 
 .modal-details p {
@@ -337,8 +337,8 @@ section {
 }
 
 .modal-details p.note {
-    font-size: 0.9rem;
-    color: var(--medium-gray);
+    font-size: 0.95rem;
+    color: var(--dark-gray);
     margin-top: 1rem;
 }
 
@@ -391,16 +391,18 @@ section {
 
 .form-group label {
     display: block;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.4rem;
     font-weight: 600;
+    font-size: 1.05rem;
 }
 
 .form-group input, .form-group textarea {
     width: 100%;
-    padding: 0.6rem;
+    padding: 0.8rem;
     border: 1px solid var(--light-gray);
     border-radius: 2px;
     font-family: inherit;
+    font-size: 1rem;
     transition: var(--transition);
 }
 
@@ -473,7 +475,7 @@ section {
 
 .footer-nav a {
     color: white;
-    font-size: 0.9rem;
+    font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -500,14 +502,14 @@ section {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 2rem;
     text-align: center;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .copyright .price-disclaimer {
     margin-top: 0.5rem;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 /* Modal */
@@ -602,8 +604,8 @@ section {
     text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 5px;
-    font-size: 0.8rem;
+    padding: 6px;
+    font-size: 0.9rem;
     opacity: 0.8;
     transition: opacity 0.3s ease;
     pointer-events: none; /* Prevent the instruction from interfering with drag */
@@ -729,7 +731,7 @@ section {
     }
     
     html {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .hero h1 {
