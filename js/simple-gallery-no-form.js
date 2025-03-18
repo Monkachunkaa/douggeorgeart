@@ -12,29 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
   let hasDragged = false; // Track whether we've actually dragged or just clicked
   let startX, startY;
   
-  // Add WebP detection functionality
-  function detectWebP() {
-    const canvas = document.createElement('canvas');
-    if (canvas.getContext && canvas.getContext('2d')) {
-      // Was able to create a canvas element
-      return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
-    }
-    return false;
-  }
-  
-  // Add class to HTML element for WebP support
-  if (detectWebP()) {
-    document.documentElement.classList.add('webp');
-  } else {
-    document.documentElement.classList.add('no-webp');
-  }
+  // All images are now WebP format
+  document.documentElement.classList.add('webp');
   
   // Define all our gallery items
   const artworks = [
     {
       id: 10,
       title: "Hibiscus 1",
-      webpImage: "img/hibiscus_1.webp",
       image: "img/hibiscus_1.webp",
       paintingPrice: "$250",
       size: "12\"x16\""
@@ -42,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 11,
       title: "Lillies",
-      webpImage: "img/lillies.webp",
       image: "img/lillies.webp",
       paintingPrice: "$225",
       size: "16\"x12\""
@@ -50,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 12,
       title: "House at Brown Summit",
-      webpImage: "img/house-at-brown-summit.webp",
       image: "img/house-at-brown-summit.webp",
       paintingPrice: "$350",
       size: "12\"x16\""
@@ -58,31 +41,27 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 4,
       title: "Pathway to the Beach",
-      webpImage: "img/pathway_to_the_beach.webp",
-      image: "img/pathway_to_the_beach.jpg",
+      image: "img/pathway_to_the_beach.webp",
       paintingPrice: "$275",
       size: "12\"x16\""
     },
     {
       id: 5,
       title: "Country Walk",
-      webpImage: "img/country_walk.webp",
-      image: "img/country_walk.jpg",
+      image: "img/country_walk.webp",
       paintingPrice: "$300",
       size: "14\"x14\""
     },
     {
       id: 6,
       title: "Trees in Townsend Forest",
-      webpImage: "img/trees_in_townsend_forest.webp",
-      image: "img/trees_in_townsend_forest.jpg",
+      image: "img/trees_in_townsend_forest.webp",
       paintingPrice: "$400",
       size: "18\"x18\""
     },
     {
       id: 7,
       title: "Townsend Forest Trees II",
-      webpImage: "img/townsend_forest_trees_II.webp",
       image: "img/townsend_forest_trees_II.webp",
       paintingPrice: "$350",
       size: "16\"x16\""
@@ -90,23 +69,20 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 8,
       title: "The Orange Barn",
-      webpImage: "img/the_orange_barn.webp",
-      image: "img/the_orange_barn.jpg",
+      image: "img/the_orange_barn.webp",
       paintingPrice: "$350",
       size: "12\"x16\""
     },
     {
       id: 9,
       title: "Field of Sunlight",
-      webpImage: "img/field_of_sunlight.webp",
-      image: "img/field_of_sunlight.jpg",
+      image: "img/field_of_sunlight.webp",
       paintingPrice: "$350",
       size: "12\"x16\""
     },
     {
       id: 1,
       title: "Fishing Boats on Beach",
-      webpImage: "img/fishing_boats_on_beach.webp",
       image: "img/fishing_boats_on_beach.webp",
       paintingPrice: "$200",
       size: "12\"x16\""
@@ -114,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 2,
       title: "House With Red Field",
-      webpImage: "img/house_with_red_field.webp",
       image: "img/house_with_red_field.webp",
       paintingPrice: "$250",
       size: "14\"x14\""
@@ -122,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {
       id: 3,
       title: "Country House with Red Roof",
-      webpImage: "img/country_house_with_red_roof.webp",
       image: "img/country_house_with_red_roof.webp",
       paintingPrice: "$250",
       size: "12\"x16\""
@@ -153,10 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Create the HTML content
     item.innerHTML = `
       <div class="gallery-image-container">
-        <picture>
-          <source srcset="${artwork.webpImage}" type="image/webp">
-          <img src="${artwork.image}" alt="Painting: ${artwork.title}" class="gallery-image">
-        </picture>
+        <img src="${artwork.image}" alt="Painting: ${artwork.title}" class="gallery-image">
       </div>
       <div class="gallery-caption">
         <h3>${artwork.title}</h3>
@@ -174,35 +145,25 @@ document.addEventListener('DOMContentLoaded', function() {
       const modalDescription = document.getElementById('modal-description');
       const modalDetails = document.getElementById('modal-details-text');
       
-      // Update the modal content - use picture element for WebP support
+      // Update the modal content 
       if (modalTitle) modalTitle.innerText = artwork.title;
       if (modalDescription) modalDescription.innerText = ""; // Clear description
       
-      // Replace image with picture element for WebP support
+      // Replace image
       const modalImageContainer = document.querySelector('.modal-image-container');
       if (modalImageContainer) {
         // Clear existing content
         modalImageContainer.innerHTML = '';
         
-        // Create picture element
-        const picture = document.createElement('picture');
-        
-        // Add WebP source
-        const source = document.createElement('source');
-        source.srcset = artwork.webpImage;
-        source.type = 'image/webp';
-        picture.appendChild(source);
-        
-        // Add image fallback
+        // Add image
         const img = document.createElement('img');
         img.id = 'modal-image';
         img.src = artwork.image;
         img.alt = `Enlarged view of painting: ${artwork.title}`;
         img.className = 'gallery-image';
-        picture.appendChild(img);
         
         // Add to container
-        modalImageContainer.appendChild(picture);
+        modalImageContainer.appendChild(img);
         
         // Add zoom instruction if not present
         if (!document.getElementById('zoom-instruction')) {

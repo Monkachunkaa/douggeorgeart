@@ -165,11 +165,11 @@ section {
 }
 
 /* Hero Section */
-/* Hero Section - Using WebP background with fallback */
+/* Hero Section */
 .hero {
     position: relative;
     height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/bg-hero-img.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/bg-hero-img.webp');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -180,11 +180,6 @@ section {
     color: white;
     padding: 0;
     will-change: transform; /* Hardware acceleration hint */
-}
-
-/* WebP-enabled browsers get the WebP background */
-.webp .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/bg-hero-img.webp');
 }
 
 /* Disable fixed background on mobile for better performance */
