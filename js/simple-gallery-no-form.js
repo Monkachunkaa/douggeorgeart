@@ -18,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Define all our gallery items
   const artworks = [
     {
+      id: 13,
+      title: "Wetlands One",
+      image: "img/wetlands_one.webp",
+      paintingPrice: "$225",
+      size: "16\"x16\""
+    },
+    {
       id: 10,
       title: "Hibiscus 1",
       image: "img/hibiscus_1.webp",
