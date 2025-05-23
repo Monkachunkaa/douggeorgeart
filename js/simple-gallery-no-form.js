@@ -18,6 +18,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Define all our gallery items
   const artworks = [
     {
+      id: 14,
+      title: "Spring Trees",
+      image: "img/spring_trees.webp",
+      paintingPrice: "$250",
+      size: "16\"x16\""
+    },
+    {
       id: 13,
       title: "Wetlands One",
       image: "img/wetlands_one.webp",
