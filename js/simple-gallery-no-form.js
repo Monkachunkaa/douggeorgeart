@@ -109,6 +109,13 @@ document.addEventListener('DOMContentLoaded', function() {
       size: "12\"x16\""
     },
     {
+      id: 15,
+      title: "TED",
+      image: "img/TED.webp",
+      paintingPrice: "NOT FOR SALE",
+      size: "12\"x16\""
+    },
+    {
       id: 11,
       title: "Lillies",
       image: "img/lillies.webp",
@@ -147,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <h3>${artwork.title}</h3>
         <p class="artwork-medium">Medium: Acrylic</p>
         <p class="artwork-size">Size: ${artwork.size}</p>
-        <p class="artwork-price ${artwork.paintingPrice === 'SOLD' ? 'sold-item' : ''}">${artwork.paintingPrice === 'SOLD' ? 'SOLD' : `Price: ${artwork.paintingPrice}`}</p>
+        <p class="artwork-price ${artwork.paintingPrice === 'SOLD' ? 'sold-item' : artwork.paintingPrice === 'NOT FOR SALE' ? 'not-for-sale-item' : ''}">${artwork.paintingPrice === 'SOLD' ? 'SOLD' : artwork.paintingPrice === 'NOT FOR SALE' ? 'NOT FOR SALE' : `Price: ${artwork.paintingPrice}`}</p>
       </div>
     `;
     
@@ -195,14 +202,14 @@ document.addEventListener('DOMContentLoaded', function() {
         modalDetails.innerHTML = `
           <p><strong>Medium:</strong> Acrylic</p>
           <p><strong>Size:</strong> ${artwork.size}</p>
-          <p><strong>${artwork.paintingPrice === 'SOLD' ? 'Status:' : 'Price:'}</strong> ${artwork.paintingPrice}</p>
-          ${artwork.paintingPrice !== 'SOLD' ? '<p class="note"><em>All prices exclude sales tax, packaging, and shipping.</em></p>' : ''}
+          <p><strong>${artwork.paintingPrice === 'SOLD' || artwork.paintingPrice === 'NOT FOR SALE' ? 'Status:' : 'Price:'}</strong> ${artwork.paintingPrice}</p>
+          ${artwork.paintingPrice !== 'SOLD' && artwork.paintingPrice !== 'NOT FOR SALE' ? '<p class="note"><em>All prices exclude sales tax, packaging, and shipping.</em></p>' : ''}
         `;
         
         // Hide or show the inquire button based on sold status
         const inquireButton = document.getElementById('inquire-button');
         if (inquireButton) {
-          if (artwork.paintingPrice === 'SOLD') {
+          if (artwork.paintingPrice === 'SOLD' || artwork.paintingPrice === 'NOT FOR SALE') {
             inquireButton.style.display = 'none';
           } else {
             inquireButton.style.display = 'block';

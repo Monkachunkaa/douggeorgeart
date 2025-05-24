@@ -344,6 +344,15 @@ section {
     background-color: #DC3545;
 }
 
+/* Style for NOT FOR SALE items - similar to sold but without the red color and strikethrough */
+.gallery-caption p.not-for-sale-item {
+    color: var(--dark-gray);
+    font-weight: 600;
+    font-style: italic;
+    position: relative;
+    display: inline-block;
+}
+
 .gallery-item:has(.sold-item) {
     position: relative;
     overflow: visible;
