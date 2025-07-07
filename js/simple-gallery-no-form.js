@@ -21,91 +21,91 @@ document.addEventListener('DOMContentLoaded', function() {
       id: 14,
       title: "Spring Trees",
       image: "img/spring_trees.webp",
-      paintingPrice: "$250",
+      paintingPrice: "$150",
       size: "16\"x16\""
     },
     {
       id: 13,
       title: "Wetlands One",
       image: "img/wetlands_one.webp",
-      paintingPrice: "$225",
+      paintingPrice: "$125",
       size: "16\"x16\""
     },
     {
       id: 10,
       title: "Hibiscus 1",
       image: "img/hibiscus_1.webp",
-      paintingPrice: "$250",
+      paintingPrice: "$150",
       size: "12\"x16\""
     },
     {
       id: 12,
       title: "House at Brown Summit",
       image: "img/house-at-brown-summit.webp",
-      paintingPrice: "$350",
+      paintingPrice: "$250",
       size: "12\"x16\""
     },
     {
       id: 4,
       title: "Pathway to the Beach",
       image: "img/pathway_to_the_beach.webp",
-      paintingPrice: "$275",
+      paintingPrice: "$175",
       size: "12\"x16\""
     },
     {
       id: 5,
       title: "Country Walk",
       image: "img/country_walk.webp",
-      paintingPrice: "$300",
+      paintingPrice: "$200",
       size: "14\"x14\""
     },
     {
       id: 6,
       title: "Trees in Townsend Forest",
       image: "img/trees_in_townsend_forest.webp",
-      paintingPrice: "$400",
+      paintingPrice: "$300",
       size: "18\"x18\""
     },
     {
       id: 7,
       title: "Townsend Forest Trees II",
       image: "img/townsend_forest_trees_II.webp",
-      paintingPrice: "$350",
+      paintingPrice: "$250",
       size: "16\"x16\""
     },
     {
       id: 8,
       title: "The Orange Barn",
       image: "img/the_orange_barn.webp",
-      paintingPrice: "$350",
+      paintingPrice: "$250",
       size: "12\"x16\""
     },
     {
       id: 9,
       title: "Field of Sunlight",
       image: "img/field_of_sunlight.webp",
-      paintingPrice: "$350",
+      paintingPrice: "$250",
       size: "12\"x16\""
     },
     {
       id: 1,
       title: "Fishing Boats on Beach",
       image: "img/fishing_boats_on_beach.webp",
-      paintingPrice: "$200",
+      paintingPrice: "$100",
       size: "12\"x16\""
     },
     {
       id: 2,
       title: "House With Red Field",
       image: "img/house_with_red_field.webp",
-      paintingPrice: "$250",
+      paintingPrice: "$150",
       size: "14\"x14\""
     },
     {
       id: 3,
       title: "Country House with Red Roof",
       image: "img/country_house_with_red_roof.webp",
-      paintingPrice: "$250",
+      paintingPrice: "$150",
       size: "12\"x16\""
     },
     {
